@@ -8,12 +8,12 @@ app = Flask(__name__)
 
 # Google Sheets setup
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-# import json
-# import os
+import json
+import os
 
-# google_creds = json.loads(os.environ["GOOGLE_CREDS"])
-# creds = ServiceAccountCredentials.from_json_keyfile_dict(google_creds, scope)
-creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+google_creds = json.loads(os.environ["GOOGLE_CREDS"])
+creds = ServiceAccountCredentials.from_json_keyfile_dict(google_creds, scope)
+# creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
 client = gspread.authorize(creds)
 sheet = client.open("checkin sheet").sheet1
 
@@ -48,9 +48,9 @@ def webhook():
 
     return jsonify({"text": f"{msg_type} logged successfully for {name}!"})
 
-if __name__ == "__main__":
-    app.run(port=5000)
-
 # if __name__ == "__main__":
-#     port = int(os.environ.get("PORT", 5000))
-#     app.run(host="0.0.0.0", port=port)
+#     app.run(port=5000)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
